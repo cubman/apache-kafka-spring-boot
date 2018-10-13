@@ -9,25 +9,26 @@ import ru.dstu.entity.MessageHistory;
 import java.util.List;
 
 @Controller
+@RequestMapping("/producer")
 public class ProducerController {
 
     @Autowired
-    MessageHistory producerMessageHistory;
+    private MessageHistory producerMessageHistory;
 
-    @PostMapping("/producer")
+    @PostMapping("/")
     public ModelAndView producer(@RequestParam("message") String message) {
         ModelAndView modelAndView = new ModelAndView("kafka/producer");
         modelAndView.addObject("message", message);
         producerMessageHistory.addMessage(message);
         return modelAndView;
     }
-    @RequestMapping("producer/history")
+    @RequestMapping("history")
     @ResponseBody
     List<String> getHistory() {
         return producerMessageHistory.getHistory();
     }
 
-    @GetMapping("/producer")
+    @GetMapping("/")
     public String producer() {
         return "kafka/producer";
     }

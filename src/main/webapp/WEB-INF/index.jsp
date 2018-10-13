@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,4 +19,11 @@
         <div class="center"> ${msg}!! </div>
     </body>
 
+    <form action="producer/">
+        <input  type = "submit" name = "submit" value = "Производитель" >
+    </form>
+    <br>
+    <form action="consumer/">
+        <input  type = "submit" name = "submit" value = "Потребитель" >
+    </form>
 </html>
