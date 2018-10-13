@@ -23,7 +23,7 @@
         <input  type = "submit" name = "submit" value = "Производитель" >
     </form>
     <br>
-    <form action="consumer/">
+    <form action="consumer/add">
         <input  type = "submit" name = "submit" value = "Потребитель" >
     </form>
 </html>
