@@ -1,10 +1,11 @@
 package ru.dstu.controller;
 
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,7 +25,7 @@ public class ProducerController {
     @Autowired
     private MessageHistory producerMessageHistory;
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private KafkaProducer kafkaProducer;
 
     @PostMapping("/")
     public ModelAndView producer(@RequestParam("message") String message) {
@@ -32,9 +33,9 @@ public class ProducerController {
         modelAndView.addObject("message", message);
 
         producerMessageHistory.addMessage(message);
-        kafkaTemplate.send(topicName, message);
+        kafkaProducer.send(new ProducerRecord(topicName, message));
 
-        LOGGER.info("Sended", message);
+        LOGGER.info("Sended {}", message);
 
         return modelAndView;
     }

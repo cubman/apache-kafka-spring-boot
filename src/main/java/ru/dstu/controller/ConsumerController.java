@@ -1,29 +1,38 @@
 package ru.dstu.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.dstu.entity.Consumer;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @RestController
 @RequestMapping("/consumer")
 public class ConsumerController {
 
-    List<Consumer> consumers = new ArrayList<>();
+    Map<Long, Consumer> consumers = new HashMap<>();
+    ExecutorService threadPoolExecutor = Executors.newFixedThreadPool(10);
 
     @GetMapping("/add")
     public String addConsumer() {
         Consumer consumer = new Consumer();
-        consumers.add(consumer);
-        return "consumer add " + consumer;
+        consumers.put(consumer.getId(), consumer);
+
+        ConsumerThread consumerThread = new ConsumerThread();
+        consumerThread.setConsumer(consumer);
+
+        threadPoolExecutor.execute(consumerThread);
+
+        return "consumer added " + consumer;
     }
 
     @GetMapping("")
-    public List<Consumer> getConsumers() {
-        return consumers;
+    public Set<Map.Entry<Long, Consumer>> getConsumers() {
+        return consumers.entrySet();
     }
 }

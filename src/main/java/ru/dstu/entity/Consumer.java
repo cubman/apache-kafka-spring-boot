@@ -3,14 +3,12 @@ package ru.dstu.entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
-import java.util.List;
 import java.util.Random;
 
-
-public class Consumer implements Serializable {
+@Component
+public class Consumer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Consumer.class);
 
@@ -20,6 +18,10 @@ public class Consumer implements Serializable {
                 "messageHistory=" + messageHistory +
                 ", id=" + id +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
     }
 
     class Pair {
@@ -45,9 +47,8 @@ public class Consumer implements Serializable {
         return new Pair(id, messageHistory);
     }
 
-    @KafkaListener(topics = "DSTU", groupId = "dstu-group")
-    public void listen(String message) {
-        LOGGER.info("Recieved message", message);
+    public void addMessage(String message) {
+        LOGGER.info("Recieved message {}", message);
 
         messageHistory.addMessage(message);
     }
