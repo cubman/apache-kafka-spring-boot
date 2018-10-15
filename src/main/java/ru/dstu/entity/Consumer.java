@@ -1,5 +1,6 @@
 package ru.dstu.entity;
 
+import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,6 @@ public class Consumer {
         return id;
     }
 
-    class Pair {
-        Long id;
-        MessageHistory messageHistory;
-
-        public Pair(Long id, MessageHistory messageHistory) {
-            this.id = id;
-            this.messageHistory = messageHistory;
-        }
-    }
-
     @Autowired
     MessageHistory messageHistory;
     Long id;
@@ -43,7 +34,7 @@ public class Consumer {
         id = random.nextLong();
     }
 
-    Pair getData() {
+    public Pair<Long, MessageHistory> getData() {
         return new Pair(id, messageHistory);
     }
 

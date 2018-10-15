@@ -1,5 +1,7 @@
 package ru.dstu.entity;
 
+import org.springframework.stereotype.Component;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,5 +14,12 @@ public class MessageHistory {
 
     public synchronized List<String> getHistory() {
         return history;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageHistory{" +
+                "history=" + history +
+                '}';
     }
 }
