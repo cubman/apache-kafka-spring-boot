@@ -28,18 +28,21 @@ public class ConsumerController {
 
     @GetMapping("/add")
     public String addConsumer() {
-        Consumer consumer = new Consumer();
-        consumers.put(consumer.getId(), consumer);
+
 
         ConsumerThread consumerThread = applicationContext.getBean(ConsumerThread.class);
+        Consumer consumer = consumerThread.getConsumer();
 
         threadPoolExecutor.submit(consumerThread);
+        consumers.put(consumer.getId(), consumer);
 
         return "consumer added " + consumer;
     }
 
     @GetMapping("")
     public List<Pair<Long, MessageHistory>> getConsumers() {
-        return consumers.entrySet().stream().map(longConsumerEntry -> longConsumerEntry.getValue().getData()).collect(Collectors.toList());
+        return consumers.entrySet().stream()
+                .map(longConsumerEntry -> longConsumerEntry.getValue().getData())
+                .collect(Collectors.toList());
     }
 }

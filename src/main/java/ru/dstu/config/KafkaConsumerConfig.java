@@ -34,12 +34,6 @@ public class KafkaConsumerConfig {
 
     @Bean
     @Scope("prototype")
-    public ConsumerThread consumerThread() {
-        return new ConsumerThread(consumer(), consumerProperties());
-    }
-
-    @Bean
-    @Scope("prototype")
     public Consumer consumer() {
         return new Consumer();
     }
